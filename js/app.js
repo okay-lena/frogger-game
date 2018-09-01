@@ -35,13 +35,31 @@ var Player = function(x, y, speed) {
     this.x = x;
     this.y = y;
     this.speed = speed;
-    this.sprite = 'images/char-cat-girl.png';
+    this.sprite = 'images/char-boy.png';
 };
 
 Player.prototype.update = function(dt) {
 
 };
 
+Player.prototype.render = function(){
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
+Player.prototype.handleInput = function(allowedKey){
+  if (allowedKey === 'left' && this.x > 0){
+    this.x = this.x - 101;
+  }
+  else if (allowedKey === 'up' && this.y > 0) {
+    this.y = this.y - 83;
+  }
+  else if (allowedKey === 'right' && this.x < 404) {
+    this.x = this.x + 101;
+  }
+  else if (allowedKey === 'down' && this.y < 374) {
+    this.y = this.y + 83;
+  }
+}
 
 
 // Now instantiate your objects.
