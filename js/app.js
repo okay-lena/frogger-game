@@ -19,6 +19,12 @@ Enemy.prototype.update = function(dt) {
     // all computers.
     this.x = this.x + this.speed * dt;
 
+    // bring enemy back to canvas && change speed
+    if (this.x > 600) {
+      this.x = -100;
+      this.speed = 100 + Math.floor(Math.random() * 200);
+    }
+
 };
 
 // Draw the enemy on the screen, required method for game
