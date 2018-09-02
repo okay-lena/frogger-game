@@ -1,98 +1,99 @@
 // Enemies our player must avoid
-let Enemy = function(x, y, speed) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-    this.x = x;
-    this.y = y;
-    this.speed = speed;
+class Enemy {
+    constructor(x, y, speed) {
+        // Variables applied to each of our instances go here,
+        // we've provided one for you to get started
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
 
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
-};
-
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-    this.x = this.x + this.speed * dt;
-
-    // bring enemy back to canvas && change speed
-    if (this.x > 600) {
-      this.x = -100;
-      this.speed = 100 + Math.floor(Math.random() * 300);
+        // The image/sprite for our enemies, this uses
+        // a helper we've provided to easily load images
+        this.sprite = 'images/enemy-bug.png';
     }
 
-    // check for collision with player
-    if (this.x > player.x - 50 &&
-        this.x < player.x + 50 &&
-        this.y > player.y - 50 &&
-        this.y < player.y + 50) {
-      // return player to start
-      player.x = 202;
-      player.y = 400;
+    // Draw the enemy on the screen, required method for game
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
-};
+    update(dt) {
+        // You should multiply any movement by the dt parameter
+        // which will ensure the game runs at the same speed for
+        // all computers.
+        this.x = this.x + this.speed * dt;
 
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        // bring enemy back to canvas && change speed
+        if (this.x > 600) {
+            this.x = -100;
+            this.speed = 100 + Math.floor(Math.random() * 300);
+        }
+
+        // check for collision with player
+        if (this.x > player.x - 50 &&
+            this.x < player.x + 50 &&
+            this.y > player.y - 50 &&
+            this.y < player.y + 50) {
+            // return player to start
+            player.x = 202;
+            player.y = 400;
+        }
+    }
+
 };
 
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-let Player = function(x, y, speed) {
-    this.x = x;
-    this.y = y;
-    this.speed = speed;
-    this.sprite = 'images/char-boy.png';
-};
-
-Player.prototype.update = function(dt) {
-  // keep player within canvas
-    if (this.y > 380) {
-        this.y = 380;
+class Player {
+    constructor(x, y, speed) {
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+        this.sprite = 'images/char-boy.png';
     }
 
-    if (this.x > 400) {
-        this.x = 400;
+    update(dt) {
+        // keep player within canvas
+        if (this.y > 380) {
+            this.y = 380;
+        }
+
+        if (this.x > 400) {
+            this.x = 400;
+        }
+
+        if (this.x < 0) {
+            this.x = 0;
+        }
+
+        if (this.y < 0) {
+            this.x = 202;
+            this.y = 400;
+        }
     }
 
-    if (this.x < 0) {
-        this.x = 0;
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
-    if (this.y < 0) {
-      this.x = 202;
-      this.y = 400;
+    handleInput(keyPressed) {
+        if (keyPressed === 'left' && this.x > 0) {
+            this.x = this.x - 101;
+        }
+
+        if (keyPressed === 'up' && this.y > 0) {
+            this.y = this.y - 83;
+        }
+
+        if (keyPressed === 'right' && this.x < 404) {
+            this.x = this.x + 101;
+        }
+
+        if (keyPressed === 'down' && this.y < 374) {
+            this.y = this.y + 83;
+        }
     }
-};
-
-Player.prototype.render = function(){
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
-
-Player.prototype.handleInput = function(keyPressed){
-  if (keyPressed === 'left' && this.x > 0){
-    this.x = this.x - 101;
-  }
-
-  if (keyPressed === 'up' && this.y > 0) {
-    this.y = this.y - 83;
-  }
-
-  if (keyPressed === 'right' && this.x < 404) {
-    this.x = this.x + 101;
-  }
-
-  if (keyPressed === 'down' && this.y < 374) {
-    this.y = this.y + 83;
-  }
-
 }
 
 
